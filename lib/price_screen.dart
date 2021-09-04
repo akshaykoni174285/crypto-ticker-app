@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'coin_data.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:io' show Platform;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -7,9 +9,9 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  List<DropdownMenuItem<String>> getcurrency() {
+  DropdownButton<String> androidropdown() {
     List<DropdownMenuItem<String>> dropdownitems = [];
-    for (var currency in currenciesList) {
+    for (String currency in currenciesList) {
       var dropdownmenu = DropdownMenuItem(
           child: Text(
             currency,
@@ -21,11 +23,52 @@ class _PriceScreenState extends State<PriceScreen> {
           value: currency);
       dropdownitems.add(dropdownmenu);
     }
-    return dropdownitems;
+    return DropdownButton<String>(
+      dropdownColor: Color(0xFF3B4252),
+      value: name,
+      items: dropdownitems,
+      onChanged: (String? value) {
+        setState(() {
+          name = value.toString();
+        });
+      },
+    );
+  }
+
+  CupertinoPicker ioselctor() {
+    List<Widget> currency = [];
+    for (String name in currenciesList) {
+      currency.add(Text(
+        name,
+        style: TextStyle(
+          letterSpacing: 1,
+          color: Color(0xFFA3BE8C),
+          fontWeight: FontWeight.bold,
+        ),
+      ));
+    }
+
+    return CupertinoPicker(
+      itemExtent: 32,
+      onSelectedItemChanged: (value) {
+        setState(() {
+          print(value);
+        });
+      },
+      children: currency,
+    );
+  }
+
+  Widget getpicker() {
+    if (Platform.isAndroid) {
+      return androidropdown();
+    } else if (Platform.isIOS) {
+      return ioselctor();
+    } else
+      return androidropdown();
   }
 
   String name = 'USD';
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,16 +107,7 @@ class _PriceScreenState extends State<PriceScreen> {
             alignment: Alignment.center,
             padding: EdgeInsets.only(bottom: 30.0),
             color: Color(0xFF4C566A),
-            child: DropdownButton<String>(
-              dropdownColor: Color(0xFF3B4252),
-              value: name,
-              items: getcurrency(),
-              onChanged: (String? value) {
-                setState(() {
-                  name = value.toString();
-                });
-              },
-            ),
+            child: getpicker(),
           ),
         ],
       ),
