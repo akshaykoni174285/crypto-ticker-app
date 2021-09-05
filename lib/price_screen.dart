@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
+import 'networking.dart';
+
+var currency = 'USD';
+var price;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -9,6 +13,8 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
+  Networking networking = Networking(currency: currency);
+
   DropdownButton<String> androidropdown() {
     List<DropdownMenuItem<String>> dropdownitems = [];
     for (String currency in currenciesList) {
@@ -25,11 +31,11 @@ class _PriceScreenState extends State<PriceScreen> {
     }
     return DropdownButton<String>(
       dropdownColor: Color(0xFF3B4252),
-      value: name,
+      value: currency,
       items: dropdownitems,
       onChanged: (String? value) {
         setState(() {
-          name = value.toString();
+          currency = value.toString();
         });
       },
     );
@@ -68,7 +74,21 @@ class _PriceScreenState extends State<PriceScreen> {
       return androidropdown();
   }
 
-  String name = 'USD';
+  @override
+  void initState() {
+    super.initState();
+    updateUI();
+  }
+
+  void updateUI() async {
+    var date = await networking.crypto();
+    setState(() {
+      price = date;
+    });
+
+    print(price);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +112,7 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = ? USD',
+                  '1 BTC = $price USD',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
