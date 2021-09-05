@@ -7,6 +7,7 @@ import 'networking.dart';
 var currency = 'USD';
 var pricebit;
 var priceeth;
+var priceltc;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -84,11 +85,13 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void updateUI() async {
-    var data = await networking.bitcoin(currency);
+    var bitdata = await networking.bitcoin(currency);
     var ethdata = await networking.eth(currency);
+    var ltcdata = await networking.ltc(currency);
     setState(() {
       priceeth = ethdata;
-      pricebit = data;
+      pricebit = bitdata;
+      priceltc = ltcdata;
     });
   }
 
@@ -137,6 +140,27 @@ class _PriceScreenState extends State<PriceScreen> {
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
                   '1 ETH = $priceeth $currency',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+            child: Card(
+              color: Color(0xFF4C566A),
+              elevation: 5.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+                child: Text(
+                  '1 LTC = $priceltc $currency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
