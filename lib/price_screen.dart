@@ -5,7 +5,8 @@ import 'dart:io' show Platform;
 import 'networking.dart';
 
 var currency = 'USD';
-var price;
+var pricebit;
+var priceeth;
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -36,6 +37,7 @@ class _PriceScreenState extends State<PriceScreen> {
       onChanged: (String? value) {
         setState(() {
           currency = value.toString();
+          updateUI();
         });
       },
     );
@@ -58,7 +60,8 @@ class _PriceScreenState extends State<PriceScreen> {
       itemExtent: 32,
       onSelectedItemChanged: (value) {
         setState(() {
-          print(value);
+          // currency = currenciesList[value];
+          // updateUI();
         });
       },
       children: currency,
@@ -81,12 +84,12 @@ class _PriceScreenState extends State<PriceScreen> {
   }
 
   void updateUI() async {
-    var date = await networking.crypto();
+    var data = await networking.bitcoin(currency);
+    var ethdata = await networking.eth(currency);
     setState(() {
-      price = date;
+      priceeth = ethdata;
+      pricebit = data;
     });
-
-    print(price);
   }
 
   @override
@@ -112,7 +115,28 @@ class _PriceScreenState extends State<PriceScreen> {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
                 child: Text(
-                  '1 BTC = $price USD',
+                  '1 BTC = $pricebit $currency',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
+            child: Card(
+              color: Color(0xFF4C566A),
+              elevation: 5.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
+                child: Text(
+                  '1 ETH = $priceeth $currency',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
