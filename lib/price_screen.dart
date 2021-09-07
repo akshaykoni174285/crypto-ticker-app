@@ -3,6 +3,7 @@ import 'coin_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'dart:io' show Platform;
 import 'networking.dart';
+import 'constants.dart';
 
 var currency = 'USD';
 var pricebit;
@@ -34,6 +35,9 @@ class _PriceScreenState extends State<PriceScreen> {
     return DropdownButton<String>(
       dropdownColor: Color(0xFF3B4252),
       value: currency,
+      underline: Container(
+        color: Colors.transparent,
+      ),
       items: dropdownitems,
       onChanged: (String? value) {
         setState(() {
@@ -99,85 +103,82 @@ class _PriceScreenState extends State<PriceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        shadowColor: Colors.transparent,
         centerTitle: true,
-        titleSpacing: 1,
-        title: Text('Crypto Ticker'),
+        title: Text(
+          'Crypto Ticker',
+          style: TextStyle(
+            fontFamily: 'Allison',
+            letterSpacing: 1,
+            color: Color(0xFFD8DEE9),
+            fontSize: 40,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
+      backgroundColor: Color(0xFF2E3440),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Color(0xFF4C566A),
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 BTC = $pricebit $currency',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+          SizedBox(
+            height: 15,
+          ),
+          card(
+            text: Text(
+              '1 BTC = $pricebit $currency',
+              textAlign: TextAlign.center,
+              style: KTextstyle,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Color(0xFF4C566A),
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 ETH = $priceeth $currency',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+          card(
+            text: Text(
+              '1 ETH = $priceeth $currency',
+              textAlign: TextAlign.center,
+              style: KTextstyle,
             ),
           ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(18.0, 18.0, 18.0, 0),
-            child: Card(
-              color: Color(0xFF4C566A),
-              elevation: 5.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
-                child: Text(
-                  '1 LTC = $priceltc $currency',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+          card(
+            text: Text(
+              '1 LTC = $priceltc $currency',
+              textAlign: TextAlign.center,
+              style: KTextstyle,
             ),
           ),
           Container(
-            height: 150.0,
+            height: 130.0,
             alignment: Alignment.center,
-            padding: EdgeInsets.only(bottom: 30.0),
-            color: Color(0xFF4C566A),
+            // padding: EdgeInsets.only(bottom: 30.0),
+            color: Color(0xFF2E3440),
             child: getpicker(),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class card extends StatelessWidget {
+  card({required this.text});
+  Widget text;
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        child: Card(
+          color: Color(0xFF4C566A),
+          elevation: 5.0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 30.0),
+              child: text,
+            ),
+          ),
+        ),
       ),
     );
   }
