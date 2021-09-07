@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFFB48EAD),
+        primaryColor: Color(0xFF2E3440),
       ),
       home: PriceScreen(),
     );
