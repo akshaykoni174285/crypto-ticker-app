@@ -35,7 +35,6 @@ class Networking {
     var Response = await http.get(url);
     var data = json.decode(Response.body);
     var lastprice = data['rate'];
-    print(lastprice);
     return lastprice;
   }
 }
